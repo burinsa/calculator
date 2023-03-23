@@ -244,7 +244,7 @@ function init() {
     // });
 
     $.ajax({
-      url: '/js/mkad.json',
+      url: 'js/mkad.json',
       dataType: 'json',
       success: onPolygonLoad
   });
