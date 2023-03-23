@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=7bba7897-0dda-4818-a450-ad0d6dc7fed4&lang=ru_RU&load=package.standard" type="text/javascript"></script>
+  <link rel="stylesheet" href="/calculator.css">
+  <title>Document</title>
+</head>
+<body>
+  <header>
+    <h1>Map</h1>
+  </header>
+  <main>
+    <div class="container">
+      <div class="calc-description">
+        <div class="calc-description__title">
+          <h2>Перед Вами калькулятор перевозки пианино и роялей Piano Сервис.</h2>
+          <p>Наши разработчики  гордятся, что наш калькулятор – единственный на рынке, который может посчитать стоимость перевозки не только пианино, но и рояля.</p>
+        </div>
+        <div class="calc-description__text">
+          <div class="desc-pian">
+            <p>Цена доставки пианино рассчитывается в зависимости от:</p>
+            <ul>
+              <li>массы инструмента</li>
+              <li>грузового лифта в здании</li>
+              <li>сколько этажей нам идти с пианино (если грузовой лифт отсутствует)</li>
+              <li>расстояния (в случае, если нужно ехать за МКАД)</li>
+            </ul>
+          </div>
+          <div class="desc-pian">
+            <p>Цена перевозки рояля рассчитывается в зависимости от:</p>
+            <ul>
+              <li>длины рояля (меряем от клавиш до хвоста)</li>
+              <li>наличия грузового лифта</li>
+              <li>количества этажей (если грузовой лифт отсутствует)</li>
+              <li>расстояния (в случае, если нужно ехать за МКАД)</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <p>Когда Вы поймете примерный бюджет перевозки и решите, что повезёте с нами – можете отправить нам запрос на перевозку пианино или перевозку рояля и мы в течение 30 минут ответим Вам в удобном для Вас формате.</p>
+          <p>Обычно после перевозки инструмента требуется настройка.</p>
+        </div>
+      </div>
+      <form class="form" action="mail.php" method="post">
+        <div class="calculator-1 calculator" id="calc-1">
+          <div class="wrap-radio-form">
+
+            <div class="input-form">
+              <h3>Фортепиано</h3>
+              <div class="radio">
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="modern" value="800">
+                  <label for="modern">Российское</label>
+                </div>
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="old_soviet" value="800">
+                  <label for="old_soviet">Советское</label>
+                </div>
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="old_up_120" value="800">
+                  <label for="old_up_120">Импортное (ниже 120 см.)</label>
+                </div>
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="old_from_120" value="1000">
+                  <label for="old_from_120">Импортное (выше 130 см.)</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-form">
+              <h3>Рояль</h3>
+              <div class="radio">
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="mini_132_155" value="1500">
+                  <label for="mini_132_155">Миниарюрный (132-155см)</label>
+                </div>
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="kabinet_160_195" value="3000">
+                  <label for="kabinet_160_195">Кабинетный (160-195см)</label>
+                </div>
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="salun_200_215" value="4000">
+                  <label for="salun_200_215">Салонный (200-215)</label>
+                </div>
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="small_koncert_215_240" value="4000">
+                  <label for="small_koncert_215_240">Малый концертный (215-240см)</label>
+                </div>
+                <div class="wrap-input-radio">
+                  <input type="radio" name="type" id="big_koncert_272_380" value="6000">
+                  <label for="big_koncert_272_380">Большой концертный (272-308см)</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="piano_name">
+            <label class="piano_name__label" for="piano_name">Название пианино или рояля</label>
+            <input name="piano_name" type="text" id="piano_name">
+            <input name="forte_type" type="text" id="forte_type">            
+          </div>
+        </div>
+        <div class="calculator-2 calculator" id="calc-2">
+          <input type="text" id="outText" name="km-mkad">
+          <div class="wrap-adderss">
+            <div class="wrap-input-address">
+              <div class="address-top-wrap">
+                <div class="address-top">
+                  <label for="from">Откуда забираем?</label>
+                  <input id="from" class="input" type="text" name="from" placeholder="Пример: Москва, Кремль" >
+                </div>
+                <div class="address-top">
+                  <label for="floor-from">Этаж</label>
+                  <input class="floor" type="text" name="floor-from" id="floor-from" value="1" pattern="[0-9]{1,3}">
+                </div>
+              </div>
+              <div class="address-bottom-wrap">
+                <div class="address-bottom">
+                  <label for="elevator-from">Грузовой лифт</label>
+                  <input type="checkbox" name="elevator-from" id="elevator-from"> 
+                </div>
+                <div class="address-bottom">
+                  <label for="house-from">Частный дом</label>
+                  <input type="checkbox" name="house-from" id="house-from"> 
+                </div>
+              </div>
+            </div>
+            <div class="wrap-input-address">
+              <div class="address-top-wrap">
+                <div class="address-top">
+                  <label for="to">Куда везём?</label>
+                  <input id="to" class="input" type="text" name="to"  placeholder="Пример: Москва, Кремль" >
+                </div>
+                <div class="address-top">
+                  <label for="floor-to">Этаж</label>
+                  <input class="floor" type="text" name="floor-to" id="floor-to" value="1" pattern="[0-9]{1,3}">
+                </div>    
+              </div>
+              <div class="address-bottom-wrap">
+                <div class="address-bottom">
+                  <label for="elevator-to">Грузовой лифт</label>
+                  <input type="checkbox" name="elevator-to" id="elevator-to"> 
+                </div>
+                <div class="address-bottom">
+                  <label for="house-to">Частный дом</label>
+                  <input type="checkbox" name="house-to" id="house-to">
+                </div>
+              </div>
+            </div>
+          </div>          
+          <button type="submit" id="button">Везём</button>
+
+          <h3>Карта:</h3>
+          <div class="wrap-map">
+            <div id="map"></div>
+          </div>
+          
+        </div>
+        <div class="calculator-3 calculator" id="calc-3">
+          <div class="calc-result">
+            <div class="calc-sum">
+              <p class="total-sum_title">Стоимость перевозки пианино:</p>
+              <p class="total-sum_value"></p>
+              <input type="text" name="total_sum" id="total_sum">
+            </div>
+            <div class="calc-desc">
+              <p>В итоговую стоимость включена вся работа по перевозке: подача автомобиля, упаковка в фирменные чехлы и работа грузчиков.</p>
+            </div>
+            <div class="calc-result_bottom">
+              <div class="result-btn">
+                <button id="btn-order-now" class="btn-rule">Заказать прямо сейчас</button>
+              </div>
+              <div class="calc-result__contacts">
+                <div class="result-tel">
+                  <p class="calc-result_tel">телефон</p>
+                  <a class="calc-result_tel" href="tel:+79250220508">+7 (925) 022-05-08</a>
+                </div>
+                <div class="calc-result__jobs">
+                  <p class="calc-result__jobs-text">С 08:00 до 20:00 (без выходных)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="result-description">
+            <p class="description-title">Результат расчета является достоверным, но стоимость может изменяться как в большую, так и в  меньшую сторону из-за ряда причин:</p>
+            <ul class="description-list">
+              <li class="description-item">Пианино или рояль оказалось старинными или наоборот.</li>
+              <li class="description-item">Пианино или рояль не пролезает в дверные проемы, в лифт и т.д. Вследствие этого, грузчикам приходится прибегать к дополнительным средствам. Сообщите заранее о таких нюансах, чтобы знать за что вы платите.</li>
+              <li class="description-item">Перевозка пианино и роялей в частные дома с подъемом выше первого этажа обсуждается по телефону и отправкой фото лестницы</li>
+              <li class="description-item">Стоимость перевозки Большого концертного обсуждается индивидуально, так как он не вмещается в грузовой лифт, возможна подача краном через окно</li>
+            </ul>
+          </div>
+        </div>
+        <div class="calculator-4 calculator" id="calc-4">
+          <div class="wrap-order">
+            <h3 class="order-title">Заказ перевозки российского пианино</h3>
+            <div class="contacts">
+              <div class="wrap-contacts-input">
+                <label for="name">Ваше имя:</label>
+                <input type="text" name="name" id="name" >
+              </div>
+              <div class="wrap-contacts-input">
+                <label for="tel">Контактный телефон:</label>
+                <input type="tel" name="tel" id="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{4}">
+              </div>
+              <div class="wrap-contacts-input">
+                <label for="data">Желаемая дата:</label>
+                <input type="date" name="data" id="data">
+              </div>
+              <div class="wrap-contacts-input">
+                <label for="time-1">c</label>
+                <input type="time" name="time-1" id="time-1">
+              </div>
+              <div class="wrap-contacts-input">
+                <label for="time-2">до</label>
+                <input type="time" name="time-2" id="time-2">
+              </div>
+            </div>
+            <div class="address">
+              <div class="wrap-address">
+                <p class="caption">От куда забираем</p>
+                <p class="address-start__value"></p>
+              </div>
+              <div class="address-desc">
+                <div class="wrap-address-desc apart">
+                  <label for="apart-1">Квартира</label>
+                  <input type="text" name="apart-1" id="apart-1" pattern="[0-9]{1,4}">
+                </div>
+                <div class="wrap-address-desc entrance">
+                  <label for="entr-1">Подъезд</label>
+                  <input type="text" name="entr-1" id="entr-1" pattern="[0-9]{1,3}">
+                </div>
+                <div class="wrap-address-desc domofon">
+                  <label for="domofon-1">Домофон</label>
+                  <input type="text" name="domofon-1" id="domofon-1" pattern="[0-9]{1,3}">
+                </div>
+              </div>
+            </div>
+            <div class="address">
+              <div class="wrap-address">
+                <p class="caption">От куда забираем</p>
+                <p class="address-end__value"></p>
+              </div>
+              <div class="address-desc">
+                <div class="wrap-address-desc apart">
+                  <label for="apart-2">Квартира</label>
+                  <input type="text" name="apart-2" id="apart-2" pattern="[0-9]{1,3}">
+                </div>
+                <div class="wrap-address-desc entrance">
+                  <label for="entr-2">Подъезд</label>
+                  <input type="text" name="entr-2" id="entr-2" pattern="[0-9]{1,3}">
+                </div>
+                <div class="wrap-address-desc domofon">
+                  <label for="domofon-2">Домофон</label>
+                  <input type="text" name="domofon-2" id="domofon-2" pattern="[0-9]{1,3}">
+                </div>
+              </div>
+            </div>
+            <div class="pack">
+              <h4>Упаковка:</h4>
+              <p> - Используем профессиональные защитные чехлы, эта услуга не требует дополнительный оплаты.</p>
+            </div>
+            <div class="other">
+              <div class="wrap-comment">
+                <label for="comment">Комментарий:</label>
+                <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                <div class="security-code">
+                  <label for="security">Введите код проверки:</label>
+                  <div class="wrap-code">
+                    <input class="security-input" type="text" name="security" id="security">
+                    <p class="code-num"></p>
+                  </div>  
+                </div>
+              </div>
+              <div class="other-desc">
+                <ul>
+                  <li>Если оформите доставку в начале дня, переезд можно будет организовать уже на следующий день.</li>
+                  <li>Мы бережно относимся к перевозимым пианино и роялям и не мусорим в вашей квартире.</li>
+                  <li>Мы свяжемся с вами для подтверждения заказа.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-block">
+          <button id="prevBtn" class="btn-rule" >Назад</button>
+          <button id="nextBtn" class="btn-rule disabled" >Вперед</button>
+          <button id="btn-submit" class="btn-rule">Отправить</button>
+        </div>
+      </form>
+      <div class="request-ok">
+        <p>Спасибо, ваша заявка на перевозку пианино отправлена. Не нужно нам сразу звонить — дайте нам пол часа, и мы свяжемся с Вами.</p>
+      </div>
+    </div>
+  </main>
+  <div class="preloader">
+    <div class="preloader-1">    
+        <svg>
+            <g>
+                <path d="M 50,100 A 1,1 0 0 1 50,0"/>
+            </g>
+            <g>
+                <path d="M 50,75 A 1,1 0 0 0 50,-25"/>
+            </g>
+            <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#BFE2FF;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#337AB7;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+        </svg>
+    </div>
+  </div>
+  <script>
+    window.onload = function() {
+    document.querySelector('.preloader').classList.add("preloader-remove");
+    };
+  </script>
+  <script src="/js/mcada.js"></script>
+  <script src="/js/calc.js"></script>
+  
+</body>
+</html>
